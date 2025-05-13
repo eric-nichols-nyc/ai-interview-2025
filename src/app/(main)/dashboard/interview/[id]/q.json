@@ -1,0 +1,5 @@
+{
+    "questions": [
+        "Describe a scenario where you would choose to use `useMemo` in a React component, and explain why it would be beneficial in that specific situation. Include a simplified code example to illustrate your explanation."
+    ]
+}

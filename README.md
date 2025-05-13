@@ -34,3 +34,33 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Styling with Tailwind CSS
+
+This project uses [Tailwind CSS](https://tailwindcss.com/) for utility-first styling. You can use Tailwind classes in your components. The main CSS file is located at `src/app/globals.css`.
+
+## Running Tests with Vitest
+
+This project uses [Vitest](https://vitest.dev/) for unit and component testing. To run tests, use:
+
+```bash
+npm test
+```
+
+or
+
+```bash
+npm run test
+```
+
+Vitest is configured to work with React Testing Library and jsdom for DOM-based tests.
+
+## Running End-to-End Tests with Playwright
+
+This project uses [Playwright](https://playwright.dev/) for end-to-end browser testing. To run E2E tests, use:
+
+```bash
+npm run test:e2e
+```
+
+Playwright will launch browsers and run tests located in the default `tests/` directory. You can configure Playwright further by editing `playwright.config.ts` if needed.
