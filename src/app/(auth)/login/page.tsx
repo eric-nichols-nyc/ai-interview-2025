@@ -2,37 +2,25 @@
 
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
-  //const [user, setUser] = useState<User | null>(null);
 
-//   useEffect(() => {
-//     const supabase = createClient();
-//     supabase.auth.getUser().then(({ data: { user } }) => {
-//       setUser(user);
-//     });
-//   }, []);
-
-//   useEffect(() => {
-//     if (user) {
-//       fetch("/api/user-sync", {
-//         method: "POST",
-//         body: JSON.stringify({ user }),
-//         headers: { "Content-Type": "application/json" },
-//       });
-//     }
-//   }, [user]);
 
   const handleSignInWithGoogle = async () => {
-    const supabase = createClient();
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/dashboard`
-      }
-    });
+    try {
+      const supabase = createClient();
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`
+        }
+      });
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+      setError("Failed to sign in with Google. Please try again.");
+    }
   };
 
   return (

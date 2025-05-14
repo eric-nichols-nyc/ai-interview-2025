@@ -87,6 +87,85 @@
   --bg-black-gradient: linear-gradient(135deg, #000 0%, #101014 60%, #18181b 100%);
 }
 
+@theme inline {
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite
+    alternate;
+  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+  --animate-background-position-spin: background-position-spin 3000ms infinite
+  alternate;
+  --animate-aurora: aurora 8s ease-in-out infinite alternate;
+
+
+  @keyframes shimmer-slide {
+    to {
+      transform: translate(calc(100cqw - 100%), 0);
+    }
+  }
+
+  @keyframes spin-around {
+    0% {
+      transform: translateZ(0) rotate(0);
+    }
+    15%,
+    35% {
+      transform: translateZ(0) rotate(90deg);
+    }
+    65%,
+    85% {
+      transform: translateZ(0) rotate(270deg);
+    }
+    100% {
+      transform: translateZ(0) rotate(360deg);
+    }
+  }
+  @keyframes background-position-spin {
+    0% {
+      background-position: top center;
+    }
+    100% {
+      background-position: bottom center;
+    }
+  }
+
+
+  @keyframes aurora {
+    0% {
+      background-position: 0% 50%;
+      transform: rotate(-5deg) scale(0.9);
+    }
+    25% {
+      background-position: 50% 100%;
+      transform: rotate(5deg) scale(1.1);
+    }
+    50% {
+      background-position: 100% 50%;
+      transform: rotate(-3deg) scale(0.95);
+    }
+    75% {
+      background-position: 50% 0%;
+      transform: rotate(3deg) scale(1.05);
+    }
+    100% {
+      background-position: 0% 50%;
+      transform: rotate(-5deg) scale(0.9);
+    }
+  }
+}
+
+@theme inline {
+  --animate-rippling: rippling var(--duration) ease-out;
+
+  @keyframes rippling {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+}
+
 :root {
   --radius: 0.5rem;
   --background: #fff;
@@ -134,6 +213,7 @@
   --code-bg: #f3f4f6;
   --code-border: #e5e7eb;
   --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
+  --duration: 0.6s; /* or whatever duration you want */
 }
 
 .dark {
@@ -253,78 +333,6 @@
   margin: 0 auto;
 }
 
-/* --- Contentlayer Docs Theme Additions --- */
-
-body {
-  font-family: var(--font-sans);
-  background: var(--background);
-  color: var(--foreground);
-  line-height: 1.7;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 700;
-  color: var(--foreground);
-  margin-bottom: 0.5em;
-}
-
-h1 {
-  font-size: 2.25rem;
-}
-h2 {
-  font-size: 1.5rem;
-}
-h3 {
-  font-size: 1.25rem;
-}
-
-/* Code blocks and inline code */
-code,
-pre {
-  background: var(--code-bg);
-  border: 1px solid var(--code-border);
-  border-radius: var(--radius);
-  font-family: "Fira Mono", "Menlo", "Monaco", "Consolas", monospace;
-  font-size: 0.95em;
-  padding: 0.2em 0.4em;
-}
-
-pre {
-  padding: 1em;
-  overflow-x: auto;
-}
-
-/* Buttons */
-button {
-  background: var(--primary);
-  color: var(--primary-foreground);
-  border: none;
-  border-radius: var(--radius);
-  padding: 0.5em 1em;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-button:hover {
-  background: var(--sidebar-link-active);
-}
-
-a {
-  color: var(--primary);
-  text-decoration: underline;
-  transition: color 0.2s;
-}
-
-a:hover {
-  color: var(--primary-foreground);
-  background: var(--primary);
-}
 
 /* Sidebar and main content already present, but ensure spacing and font */
 .sidebar {
@@ -360,58 +368,7 @@ a:hover {
 }
 
 /* Table styling for docs */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1.5em 0;
-  background: var(--background);
-}
-th,
-td {
-  border: 1px solid var(--border);
-  padding: 0.5em 1em;
-  text-align: left;
-}
-th {
-  background: var(--muted);
-  color: var(--foreground);
-}
 
-/* Blockquote styling */
-blockquote {
-  border-left: 4px solid var(--primary);
-  background: var(--muted);
-  color: var(--muted-foreground);
-  padding: 0.5em 1em;
-  margin: 1em 0;
-  border-radius: var(--radius);
-}
 
-/* List styling */
-ul,
-ol {
-  margin-left: 1.5em;
-  margin-bottom: 1em;
-}
-
-/* Inputs for forms */
-input,
-textarea,
-select {
-  background: var(--input);
-  color: var(--foreground);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 0.5em;
-  font-family: var(--font-sans);
-  margin-bottom: 1em;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: 2px solid var(--primary);
-  border-color: var(--primary);
-}
 
 /* --- End Contentlayer Docs Theme Additions --- */

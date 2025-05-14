@@ -162,6 +162,7 @@ const assistantOptions = {
     setStatus("Connecting...");
     setErrorMessage("");
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vapi?.start(assistantOptions as any);
   };
 

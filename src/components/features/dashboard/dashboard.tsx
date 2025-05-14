@@ -126,6 +126,11 @@ interface InterviewCardProps {
 function InterviewCard({ icon, iconBg, title, date, score, type, action, isNew = false }: InterviewCardProps) {
   return (
     <div className="bg-[#13131f] rounded-xl overflow-hidden">
+      {isNew && (
+        <div className="absolute top-0 right-0 bg-[#7c5cff] text-white px-2 py-1 text-xs font-bold rounded-full">
+          New
+        </div>
+      )}
       <div className="p-4">
         <div className="flex items-center mb-4">
           <div

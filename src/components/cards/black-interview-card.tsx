@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card"
-export default function BlackInterviewCard() {
+export function BlackInterviewCard() {
   return (
     <Card className="black-bg p-8 rounded-lg shadow-lg max-w-2xl mx-auto border-2 border-white/20">
       <CardHeader>

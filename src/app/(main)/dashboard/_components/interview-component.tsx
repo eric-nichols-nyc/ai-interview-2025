@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import InterviewCard from '../../../../components/cards/interview-card-gray';
 const INITIAL_QUESTION = 'Tell me about yourself.';
 
 const InterviewComponent = () => {

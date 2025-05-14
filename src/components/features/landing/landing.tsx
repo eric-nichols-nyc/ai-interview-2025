@@ -287,7 +287,7 @@ export default function LandingPage() {
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Ready to Ace Your Next Interview?</h2>
                 <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Join thousands of professionals who've transformed their interview skills with InterviewAI.
+                  Join thousands of professionals who&apos;ve transformed their interview skills with InterviewAI.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
