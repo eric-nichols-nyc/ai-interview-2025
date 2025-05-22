@@ -37,6 +37,13 @@ export default function Interview() {
     currentItem ? currentItem.question : ""
   );
 
+  // On mount, set to last question if available
+  useEffect(() => {
+    if (questions.length > 0) {
+      setCurrentQuestionIndex(questions.length - 1);
+    }
+  }, []); // Only run on mount
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       import("@vapi-ai/web").then((module) => {
@@ -82,9 +89,20 @@ export default function Interview() {
         vapiInstance.on("volume-level", (level) => {
           setVolumeLevel(level);
         });
-        // vapiInstance.on("message", (message) => {
-        //   console.log("Message:", message);
-        // });
+        vapiInstance.on("message", (message) => {
+         // if (message && typeof message.transcript === "string") {
+            //console.log("Message:", message);
+
+          //   setTranscriptMessages((prev) => [...prev, message.transcript]);
+          // } else if (typeof message === "string") {
+          //   setTranscriptMessages((prev) => [...prev, message]);
+          // }
+         // }
+         if (message.type === "transcript" && message.transcriptType === "final") {
+          const newMessage = { role: message.role, content: message.transcript };
+          console.log("New message:", newMessage);
+        }
+        });
 
         vapiInstance.on("error", (error) => {
           console.error("Vapi error:", error);

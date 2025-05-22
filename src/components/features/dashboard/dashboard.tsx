@@ -2,8 +2,16 @@ import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useEffect } from "react"
+import { useQuestionsStore } from "@/hooks/use-questions-store"
 
 export default function Dashboard() {
+  // Log all questions from the zustand store (localStorage) on mount
+  const questions = useQuestionsStore((state) => state.questions);
+  useEffect(() => {
+    console.log('[Dashboard] Questions from zustand store:', questions);
+  }, [questions]);
+
   return (
     <div className="min-h-screen bg-[#0d0d14] text-white p-4 md:p-8">
       {/* Hero Section */}

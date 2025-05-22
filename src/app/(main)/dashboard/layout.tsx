@@ -13,7 +13,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
   }
   return (
     <div>
-      <StickyHeader title="Dashboard" />
+      <StickyHeader title="" />
       {children}
     </div>
   );

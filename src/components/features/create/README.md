@@ -1,12 +1,20 @@
 # Interview Creation Flow
 
-This folder contains the components for the multi-step AI interview creation process, using a carousel UI.
+This folder contains the components for the multi-step AI interview creation process, using a carousel UI and a global zustand store for interview questions.
 
 ## Steps Overview
 
 1. **CreateSlide**: User fills out a form to generate an interview.
 2. **LoadingSlide**: Shows a loading indicator while the interview is being generated (simulated with a timeout). Displays an error message if the API fails.
 3. **ReadySlide**: Shows a success message and a button to start the interview.
+
+## State Management with Zustand
+- When questions are generated, they are stored in a global zustand store as an array of objects, each containing:
+  - `question`: The question text
+  - `position`: The job position for the interview
+  - `answer`: The candidate's answer (initially empty)
+- The zustand store is used throughout the interview process, including in the interview UI.
+- The job position is now dynamic and is read from the current question in the store, ensuring the interview always reflects the correct position.
 
 ## Simulated API Logic
 - When the form is submitted, the carousel advances to the loading slide.

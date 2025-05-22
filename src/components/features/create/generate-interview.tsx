@@ -12,6 +12,7 @@ import { ReadySlide } from "@/components/features/create/ready-slide";
 import Link from "next/link";
 import { InterviewQuestions } from "@/schemas/interview-questions.schema";
 import { useQuestionsStore } from '@/hooks/use-questions-store';
+import { generateUUID } from '@/hooks/use-questions-store';
 
 export function GenerateInterview() {
   const MAX_SLIDE = 3;
@@ -45,6 +46,7 @@ export function GenerateInterview() {
       // Save to zustand store
       if (Array.isArray(data.questions)) {
         setQuestions(data.questions.map((q: string) => ({
+          id: generateUUID(),
           question: q,
           position: formData.position,
           answer: ""
@@ -52,6 +54,7 @@ export function GenerateInterview() {
         console.log('[GenerateInterview] Saved array of questions to store:', data.questions);
       } else if (typeof data.questions === "string") {
         addQuestion({
+          id: generateUUID(),
           question: data.questions,
           position: formData.position,
           answer: ""
