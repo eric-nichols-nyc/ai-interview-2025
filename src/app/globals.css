@@ -94,6 +94,7 @@
   --animate-background-position-spin: background-position-spin 3000ms infinite
   alternate;
   --animate-aurora: aurora 8s ease-in-out infinite alternate;
+  --animate-gradient: gradient 8s linear infinite;
 
 
   @keyframes shimmer-slide {
@@ -148,6 +149,12 @@
     100% {
       background-position: 0% 50%;
       transform: rotate(-5deg) scale(0.9);
+    }
+  }
+
+  @keyframes gradient {
+    to {
+      background-position: var(--bg-size, 300%) 0;
     }
   }
 }
@@ -217,23 +224,23 @@
 }
 
 .dark {
-  --background: #18181b;
-  --foreground: #f3f4f6;
-  --card: oklch(0.26 0.09 300); /* slightly lighter purple */
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.26 0.09 300);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: #60a5fa; /* blue-400 */
-  --primary-foreground: #18181b;
-  --secondary: #27272a;
-  --secondary-foreground: #f3f4f6;
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
-  --accent: oklch(0.45 0.15 300); /* accent purple */
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.55 0.18 20); /* reddish for destructive */
-  --border: #27272a;
-  --input: oklch(0.32 0.07 300 / 60%);
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.865 0.243 264.376);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.865 0 207.078);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.55 0.18 300 / 80%);
   --chart-1: oklch(0.55 0.18 300); /* royal purple */
   --chart-2: oklch(0.45 0.15 320); /* magenta accent */
@@ -294,9 +301,6 @@
   body {
     @apply bg-background text-foreground;
     background: var(--background);
-  }
-  .dark body {
-    background: var(--background-gradient, var(--background));
   }
 }
 

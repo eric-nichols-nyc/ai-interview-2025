@@ -2,12 +2,10 @@ import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import StickyHeader from "./StickyHeader"
 
 export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#0d0d14] text-white p-4 md:p-8">
-      <StickyHeader title="Dashboard" />
       {/* Hero Section */}
       <div className="max-w-6xl mx-auto mb-12">
         <div className="rounded-xl bg-[#13131f] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between">
@@ -17,7 +15,7 @@ export default function Dashboard() {
             </h1>
             <p className="text-gray-400 mb-6">Practice real interview questions & get instant feedback.</p>
             <Link href="/dashboard/interview/create">
-              <Button className="bg-[#7c5cff] hover:bg-[#6a4eff] text-white rounded-full px-6">Start an interview</Button>
+              <Button className="bg-[#7c5cff] hover:bg-[#6a4eff] text-white rounded-full px-6 cursor-pointer">Start an interview</Button>
             </Link>
           </div>
           <div className="relative">

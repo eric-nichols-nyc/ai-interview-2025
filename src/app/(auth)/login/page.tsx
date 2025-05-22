@@ -2,13 +2,20 @@
 
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    console.log("LoginPage mounted");
+    return () => {
+      console.log("LoginPage unmounted");
+    };
+  }, []);
 
   const handleSignInWithGoogle = async () => {
+    console.log("Sign in with Google button clicked");
     try {
       const supabase = createClient();
       await supabase.auth.signInWithOAuth({
@@ -20,6 +27,7 @@ export default function LoginPage() {
     } catch (error) {
       console.error("Error signing in with Google:", error);
       setError("Failed to sign in with Google. Please try again.");
+      console.log("Set error state in LoginPage");
     }
   };
 

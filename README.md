@@ -1,5 +1,54 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Project Overview
+
+**InterviewAI** is an AI-powered web application for job interview preparation. Users can practice real interview scenarios with an intelligent AI interviewer, receive personalized feedback, and track their progress—all in a modern, interactive interface.
+
+### How It Works
+
+1. **Create Your Profile:** Enter your experience, target role, and interview goals.
+2. **Generate Interview Sessions:** The app generates tailored interview questions (technical or behavioral) using AI.
+3. **Practice Interviews:** Engage in realistic, voice-based interview sessions with an AI interviewer. The AI adapts to your responses, asks follow-up questions, and simulates a real interview environment.
+4. **Get Feedback:** After each answer, receive instant, AI-generated feedback on your response, communication, and areas for improvement.
+5. **Track Progress:** Review past interviews, scores, and feedback to monitor your growth over time.
+
+### Key Features
+
+- **AI Interviewer:** Voice-based, adaptive interviewer powered by OpenAI and Vapi.
+- **Custom Question Generation:** Interview questions are generated based on your chosen role and preferences.
+- **Personalized Feedback:** Each answer is analyzed and critiqued by AI for actionable improvement tips.
+- **Modern UI:** Built with Next.js, Tailwind CSS, and a suite of reusable, animated components.
+- **Testing:** Robust unit and E2E tests with Vitest and Playwright.
+
+### AI Text-to-Speech Integration
+
+This project leverages [Vapi](https://vapi.ai/) to deliver realistic, real-time voice interactions during interview practice sessions. Vapi's developer-friendly API enables the application to convert AI-generated interview questions and feedback into natural-sounding speech, creating an immersive, conversational experience for users.
+
+By integrating Vapi's text-to-speech (TTS) capabilities, the AI interviewer can:
+- **Ask questions out loud** using high-quality, human-like voices.
+- **Provide spoken feedback** after each answer, simulating a real interview environment.
+- **Support multiple languages and voices** for a customizable user experience.
+
+Vapi's TTS is highly configurable, allowing the project to select different voices, adjust speech parameters, and even bring your own models or API keys for transcription and synthesis. This flexibility ensures the voice AI feels natural and engaging, closely mirroring real-world interview scenarios.
+
+For more details on how Vapi's text-to-speech works and how it can be integrated into developer projects, see:
+- [Vapi blog: Text-to-Speech for Builders](https://vapi.ai/blog/text-to-speech-for-builders)
+- [Vapi AI Voice Assistant Integration Guide (Mobisoft Infotech)](https://mobisoftinfotech.com/resources/blog/vapi-ai-voice-assistant-integration-guide)
+
+### Authentication with Supabase
+
+This project uses [Supabase Auth](https://supabase.com/docs/guides/auth) to handle user authentication and authorization. Supabase provides a secure, scalable authentication system that supports multiple sign-in methods, including email/password, magic links, and social logins (OAuth).
+
+Key features of Supabase Auth in this project:
+- **User Registration & Login:** Users can sign up and log in securely using their email and password or supported social providers.
+- **Session Management:** Supabase manages user sessions using secure JSON Web Tokens (JWTs), allowing users to stay logged in across sessions.
+- **Authorization:** The app uses Supabase's built-in authorization features to control access to user-specific data and resources.
+- **Integration with Database:** Auth data is seamlessly integrated with the Supabase Postgres database, enabling row-level security and fine-grained access control.
+
+Supabase Auth is easy to integrate with modern JavaScript frameworks like Next.js and React, and provides a robust foundation for user management in this application.
+
+For more details, see the [Supabase Auth documentation](https://supabase.com/docs/guides/auth) and [freeCodeCamp's guide to Supabase Auth](https://www.freecodecamp.org/news/set-up-authentication-in-apps-with-supabase/).
+
 ## Getting Started
 
 First, run the development server:

@@ -56,7 +56,7 @@ export const RippleButton = React.forwardRef<
         }, parseInt(duration));
         return () => clearTimeout(timeout);
       }
-      console.log("buttonRipples", parseInt(duration));
+      console.log("buttonRipples", buttonRipples);
     }, [buttonRipples, duration]);
 
     return (
