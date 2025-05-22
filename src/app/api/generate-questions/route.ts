@@ -35,7 +35,7 @@ async function generateQuestions(position: string, description: string, amount: 
       Interview Type: ${type}
       Number of Questions: ${amount}
 
-      Return ONLY the questions as a numbered list in plain text. Do NOT use any Markdown, formatting, or explanations.`;
+      The questions should be short (no more than two sentences) and concise, so users are not frustrated and want to continue. Return ONLY the questions as a numbered list in plain text. Do NOT use any Markdown, formatting, or explanations.`;
 
     const result = await generateText({
       model: google("models/gemini-2.0-flash-001"),

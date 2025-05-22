@@ -20,7 +20,7 @@ export default async function InterviewPage({ params }: { params: Promise<{ id: 
         </BreadcrumbList>
       </Breadcrumb>
     </div>
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center h-full">
       <Interview />
     </div>
   </>
