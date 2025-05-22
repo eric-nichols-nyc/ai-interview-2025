@@ -18,6 +18,7 @@ export async function POST(req: Request) {
     }
     
     const questions = await generateQuestions(position, description, amount, type);
+    console.log("Generated questions:", questions);
     return NextResponse.json(questions);
   } catch (error) {
     console.error("Error generating questions:", error);

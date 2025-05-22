@@ -17,16 +17,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import React, { useState } from "react";
-import { interviewQuestionsSchema } from "@/schemas/interview-questions.schema";
+import { InterviewQuestions, interviewQuestionsSchema } from "@/schemas/interview-questions.schema";
 
 const formSchema = interviewQuestionsSchema;
 
 
 type CreateSlideProps = {
-  isValid: (isValid: boolean) => void;
+  onSubmit: (formData: InterviewQuestions) => void;
 }
 
-export function CreateSlide({ isValid }: CreateSlideProps) {
+export function CreateSlide({ onSubmit }: CreateSlideProps) {
   const [errors, setErrors] = useState<{ position?: string; description?: string; type?: string; amount?: string }>({});
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,8 +54,8 @@ export function CreateSlide({ isValid }: CreateSlideProps) {
       return;
     }
     setErrors({}); // Clear errors on success
-    console.log(parsedData);
-    isValid(true);
+    console.log(result.data);
+    onSubmit(result.data);
   };
 
   return (

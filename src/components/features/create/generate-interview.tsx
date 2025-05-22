@@ -10,6 +10,8 @@ import { CreateSlide } from "@/components/features/create/create-slide";
 import { LoadingSlide } from "@/components/features/create/loading-slide";
 import { ReadySlide } from "@/components/features/create/ready-slide";
 import Link from "next/link";
+import { InterviewQuestions } from "@/schemas/interview-questions.schema";
+import { useQuestionsStore } from '@/hooks/use-questions-store';
 
 export function GenerateInterview() {
   const MAX_SLIDE = 3;
@@ -19,9 +21,51 @@ export function GenerateInterview() {
   const [isError, setIsError] = useState(false);
   const [isValid, setIsValid] = useState(false);
 
+  const addQuestion = useQuestionsStore((state) => state.addQuestion);
+  const setQuestions = useQuestionsStore((state) => state.setQuestions);
+
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % MAX_SLIDE);
     carouselRef.current?.nextSlide();
+  };
+
+  const handleFormSubmit = async (formData: InterviewQuestions) => {
+    console.log('[GenerateInterview] Form submitted:', formData);
+    setIsLoading(true);
+    setIsError(false);
+    try {
+      console.log('[GenerateInterview] Sending API request...');
+      const res = await fetch('/api/generate-questions', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await res.json();
+      console.log('[GenerateInterview] API response:', data);
+      // Save to zustand store
+      if (Array.isArray(data.questions)) {
+        setQuestions(data.questions.map((q: string) => ({
+          question: q,
+          position: formData.position,
+          answer: ""
+        })));
+        console.log('[GenerateInterview] Saved array of questions to store:', data.questions);
+      } else if (typeof data.questions === "string") {
+        addQuestion({
+          question: data.questions,
+          position: formData.position,
+          answer: ""
+        });
+        console.log('[GenerateInterview] Added single question to store:', data.questions);
+      }
+      setIsLoading(false);
+      console.log('[GenerateInterview] Loading finished, moving to next slide.');
+      nextSlide();
+    } catch (err) {
+      console.error('[GenerateInterview] API error:', err);
+      setIsError(true);
+      setIsLoading(false);
+    }
   };
 
   // Simulate API call when on loading slide
@@ -60,7 +104,7 @@ export function GenerateInterview() {
           <CarouselSlides>
             <CarouselSlide>
               <div className="w-full h-full">
-                <CreateSlide isValid={setIsValid} />
+                <CreateSlide onSubmit={handleFormSubmit} />
               </div>
             </CarouselSlide>
             <CarouselSlide>

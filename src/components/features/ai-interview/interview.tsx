@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import q from "../../../app/(main)/dashboard/interview/[id]/q.json";
+import { useQuestionsStore, QuestionItem } from "@/hooks/use-questions-store";
 import Vapi from "@vapi-ai/web";
 import { Button } from "@/components/ui/button";
 import { getAssistantOptions } from "./assistantOptions";
@@ -17,13 +17,24 @@ export default function Interview() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isApiKeyValid, setIsApiKeyValid] = useState(true);
   const userName = "Eric";
-  const jobPosition = "React Engineer";
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  // Get questions from zustand store
+  const questions = useQuestionsStore((state) => state.questions);
+
+  // Helper to get the current question item
+  const getCurrentQuestionItem = (): QuestionItem | null => {
+    return questions[currentQuestionIndex] || null;
+  };
+
+  const currentItem = getCurrentQuestionItem();
+
+  const jobPosition = currentItem ? currentItem.position : "React Engineer";
 
   const assistantOptions = getAssistantOptions(
     userName,
     jobPosition,
-    q.questions[currentQuestionIndex]
+    currentItem ? currentItem.question : ""
   );
 
   useEffect(() => {
@@ -71,9 +82,9 @@ export default function Interview() {
         vapiInstance.on("volume-level", (level) => {
           setVolumeLevel(level);
         });
-        vapiInstance.on("message", (message) => {
-          console.log("Message:", message);
-        });
+        // vapiInstance.on("message", (message) => {
+        //   console.log("Message:", message);
+        // });
 
         vapiInstance.on("error", (error) => {
           console.error("Vapi error:", error);
@@ -208,18 +219,20 @@ export default function Interview() {
         <Button
           className="mt-2"
           onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
-          disabled={currentQuestionIndex >= q.questions.length - 1}
+          disabled={currentQuestionIndex >= (questions.length - 1)}
         >
           Next Question
         </Button>
         <p>Is Connected: {isConnected ? "Yes" : "No"}</p>
-          <p>Is Speaking: {isSpeaking ? "Yes" : "No"}</p>
+        <p>Is Speaking: {isSpeaking ? "Yes" : "No"}</p>
         </div>
       </CardContent>
       <CardFooter>
-        <p>
-          {q.questions[currentQuestionIndex]}
-        </p>
+        <div>
+          <p><strong>Question:</strong> {currentItem ? currentItem.question : "No questions available."}</p>
+          <p><strong>Position:</strong> {currentItem ? currentItem.position : "-"}</p>
+          <p><strong>Answer:</strong> {currentItem ? currentItem.answer : "-"}</p>
+        </div>
       </CardFooter>
     </Card>
     </div>
