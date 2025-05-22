@@ -8,22 +8,17 @@ export const interviewQuestionsSchema = z.object({
     message: "Position must be at least 1 character long."
   }),
   description: z.string({
-    required_error: "Description is required.",
     invalid_type_error: "Description must be a string."
-  }).min(1, {
-    message: "Description must be at least 1 character long."
-  }),
+  }).optional(),
   amount: z.number({
     required_error: "Amount is required.",
     invalid_type_error: "Amount must be a number."
   }).min(1, {
     message: "Amount must be at least 1."
   }),
-  type: z.string({
-    required_error: "Type is required.",
-    invalid_type_error: "Type must be a string."
-  }).min(1, {
-    message: "Type is required."
+  type: z.enum(["technical", "behavioral"], {
+    required_error: "Type must be either 'technical' or 'behavioral'",
+    invalid_type_error: "Type must be either 'technical' or 'behavioral'"
   }),
 });
 

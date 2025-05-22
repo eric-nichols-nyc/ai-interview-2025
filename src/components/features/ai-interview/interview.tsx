@@ -71,6 +71,9 @@ export default function Interview() {
         vapiInstance.on("volume-level", (level) => {
           setVolumeLevel(level);
         });
+        vapiInstance.on("message", (message) => {
+          console.log("Message:", message);
+        });
 
         vapiInstance.on("error", (error) => {
           console.error("Vapi error:", error);

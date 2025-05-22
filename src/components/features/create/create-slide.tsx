@@ -2,7 +2,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { z } from "zod";
 import {
   Card,
   CardContent,
@@ -18,12 +17,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import React, { useState } from "react";
+import { interviewQuestionsSchema } from "@/schemas/interview-questions.schema";
 
-const formSchema = z.object({
-  position: z.string().min(1),
-  description: z.string().min(1),
-  type: z.enum(["text", "image", "video"]),
-});
+const formSchema = interviewQuestionsSchema;
 
 
 type CreateSlideProps = {
@@ -31,20 +27,24 @@ type CreateSlideProps = {
 }
 
 export function CreateSlide({ isValid }: CreateSlideProps) {
-  const [errors, setErrors] = useState<{ position?: string; description?: string; type?: string }>({});
+  const [errors, setErrors] = useState<{ position?: string; description?: string; type?: string; amount?: string }>({});
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e);
 
     const formData = new FormData(e.target as HTMLFormElement);
 
     const data = Object.fromEntries(formData);
-    const result = formSchema.safeParse(data);
+    // Parse amount as number in a new object to avoid type errors
+    const parsedData = {
+      ...data,
+      amount: data.amount !== undefined ? Number(data.amount) : undefined,
+    };
+    const result = formSchema.safeParse(parsedData);
 
     if (!result.success) {
       // Map zod errors to field errors
-      const fieldErrors: { position?: string; description?: string; type?: string } = {};
+      const fieldErrors: { position?: string; description?: string; type?: string; amount?: string } = {};
       result.error.errors.forEach((err) => {
         if (err.path[0] && typeof err.path[0] === "string") {
           fieldErrors[err.path[0] as keyof typeof fieldErrors] = err.message;
@@ -54,7 +54,7 @@ export function CreateSlide({ isValid }: CreateSlideProps) {
       return;
     }
     setErrors({}); // Clear errors on success
-    console.log(data);
+    console.log(parsedData);
     isValid(true);
   };
 
@@ -90,11 +90,27 @@ export function CreateSlide({ isValid }: CreateSlideProps) {
                 <SelectValue placeholder="Select a type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="text">Text</SelectItem>
+                <SelectItem value="technical">Technical</SelectItem>
+                <SelectItem value="behavioral">Behavioral</SelectItem>
               </SelectContent>
             </Select>
             {errors.type && (
               <span className="text-red-500 text-sm">{errors.type}</span>
+            )}
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="amount">Amount</Label>
+            <Input
+              id="amount"
+              name="amount"
+              type="number"
+              min={1}
+              max={2}
+              defaultValue={1}
+              placeholder="Amount"
+            />
+            {errors.amount && (
+              <span className="text-red-500 text-sm">{errors.amount}</span>
             )}
           </div>
         </CardContent>

@@ -15,7 +15,7 @@ export default function Dashboard() {
             </h1>
             <p className="text-gray-400 mb-6">Practice real interview questions & get instant feedback.</p>
             <Link href="/dashboard/interview/create">
-              <Button className="bg-[#7c5cff] hover:bg-[#6a4eff] text-white rounded-full px-6 cursor-pointer">Start an interview</Button>
+              <Button className="bg-[#7c5cff] hover:bg-[#6a4eff] text-white rounded-full px-6 cursor-pointer">Create a new interview</Button>
             </Link>
           </div>
           <div className="relative">

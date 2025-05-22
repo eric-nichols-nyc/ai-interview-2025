@@ -29,12 +29,12 @@ async function generateQuestions(position: string, description: string, amount: 
   try {
     const prompt = `You are an expert interviewer. Generate a list of ${amount} high-quality ${type} interview questions for the following position.
 
-Position: ${position}
-Description: ${description}
-Interview Type: ${type}
-Number of Questions: ${amount}
+      Position: ${position}
+      Description: ${description}
+      Interview Type: ${type}
+      Number of Questions: ${amount}
 
-Return ONLY the questions as a numbered list in plain text. Do NOT use any Markdown, formatting, or explanations.`;
+      Return ONLY the questions as a numbered list in plain text. Do NOT use any Markdown, formatting, or explanations.`;
 
     const result = await generateText({
       model: google("models/gemini-2.0-flash-001"),

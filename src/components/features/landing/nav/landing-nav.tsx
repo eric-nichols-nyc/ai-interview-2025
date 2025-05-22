@@ -21,7 +21,7 @@ export default function LandingNav() {
       <div className="container flex h-16 items-center justify-between mx-auto max-w-5xl">
         <div className="flex items-center gap-2">
           <Brain className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold">InterviewAI</span>
+          <span className="text-xl font-bold">Prepster</span>
         </div>
         <nav className="hidden md:flex items-center gap-6">
           <Link href="#features" className="text-sm font-medium hover:text-primary">
