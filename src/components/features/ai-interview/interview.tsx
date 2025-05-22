@@ -1,9 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import q from "../q.json";
+import q from "../../../app/(main)/dashboard/interview/[id]/q.json";
 import Vapi from "@vapi-ai/web";
 import { Button } from "@/components/ui/button";
+import { getAssistantOptions } from "./assistantOptions";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+
 export default function Interview() {
   const [vapi, setVapi] = useState<Vapi | null>(null);
   const [status, setStatus] = useState("Ready");
@@ -13,64 +16,15 @@ export default function Interview() {
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const [isApiKeyValid, setIsApiKeyValid] = useState(true);
-  const userName = "John Doe";
+  const userName = "Eric";
   const jobPosition = "React Engineer";
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  // Pizza assistant configuration
-const assistantOptions = {
-    name: "AI Recruiter",
-    firstMessage: `Hello ${userName}, how are you today? are you ready to start the interview for the ${jobPosition} position?`,
-    transcriber: {
-      provider: "deepgram",
-      model: "nova-2",
-      language: "en-US",
-    },
-    voice: {
-      provider: "playht",
-      voiceId: "jennifer",
-    },
-    model: {
-      provider: "openai",
-      model: "gpt-4",
-      messages: [
-        {
-          role: "system",
-          content: `yOU ARE AN AI voice assistant conducting interviews. Your job is to ask candidates provided interview questions, assess their responses.
-    
-    Begin the conversation with a friendly introduction, setting a relaxed yet professional tone.
-  Ask the question and wait for the candidate's response. Keep the question clear and concise. Below is the question to ask:
-  Question:${q.questions[0]}
-    
-    
-  Provide brief, encouraging feedback.
-    
-  If the candidate is struggling to answer the question, offer hints or rephrase the question without giving away the answer.
-    
-  If the candidate answers the question, congratulate them and move on to the next question.
-    
-    
-  Keep the conversation natural.
-    If the candidate goes off-topic or off-track and talks about anything but the
-    process of answering the question, politely steer the conversation back to answering the question.
-    
-    Once you have all the information you need pertaining to their answer, you can
-    end the conversation. You can say something like "Awesome, we'll have that ready
-    for you in 10-20 minutes." to naturally let the candidate know the question has been
-    fully communicated.
-    
-    It is important that you collect the answer in an efficient manner (succinct replies
-    & direct questions). You only have 1 task here, and it is to collect the candidate
-    answer, then end the conversation.
-    
-    Be sure to end on a positive note.
-
-    - Be sure to be kind of funny and witty!
-    - Keep all your responses short and simple. Use casual language, phrases like "Umm...", "Well...", and "I mean" are preferred.
-    - This is a voice conversation, so keep your responses short, like in a real conversation. Don't ramble for too long.`,
-        },
-      ],
-    },
-  };
+  const assistantOptions = getAssistantOptions(
+    userName,
+    jobPosition,
+    q.questions[currentQuestionIndex]
+  );
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -102,6 +56,8 @@ const assistantOptions = {
           setIsConnecting(false);
           setIsConnected(false);
           setStatus("Call ended");
+          // Example: Advance to next question after call ends
+          // setCurrentQuestionIndex((prev) => prev + 1);
         });
 
         vapiInstance.on("speech-start", () => {
@@ -173,10 +129,12 @@ const assistantOptions = {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1>AI Interview</h1>
-      <div>
-        <Image src="/jennifer.png" alt="logo" width={300} height={300} />
+    <div className="flex flex-col items-center justify-center max-w-2xl"> 
+       <h1>AI Interview</h1>
+    <Card className="flex flex-col items-center justify-center w-full">
+      <CardContent> 
+        <div>
+          <Image src="/jennifer.png" alt="logo" width={300} height={300} className="rounded-full" />
         <p>Status: {status}</p>
         {isConnected && (
           <div style={{ marginTop: "10px" }}>
@@ -236,17 +194,6 @@ const assistantOptions = {
         <Button className="mt-4 cursor-pointer"
           onClick={isConnected ? endCall : startCall}
           disabled={isConnecting || !isApiKeyValid}
-        //   style={{
-        //     backgroundColor: isConnected ? "#f03e3e" : "white",
-        //     color: isConnected ? "white" : "black",
-        //     border: "none",
-        //     borderRadius: "8px",
-        //     padding: "12px 24px",
-        //     fontSize: "16px",
-        //     fontWeight: "500",
-        //     cursor: isConnecting || !isApiKeyValid ? "not-allowed" : "pointer",
-        //     opacity: isConnecting || !isApiKeyValid ? 0.7 : 1,
-        //   }}
         >
           {isConnecting
             ? "Connecting..."
@@ -254,9 +201,24 @@ const assistantOptions = {
             ? "End Call"
             : "Start Interview"}
         </Button>
+        {/* Button to advance to the next question for demo purposes */}
+        <Button
+          className="mt-2"
+          onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
+          disabled={currentQuestionIndex >= q.questions.length - 1}
+        >
+          Next Question
+        </Button>
         <p>Is Connected: {isConnected ? "Yes" : "No"}</p>
-        <p>Is Speaking: {isSpeaking ? "Yes" : "No"}</p>
-      </div>
+          <p>Is Speaking: {isSpeaking ? "Yes" : "No"}</p>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <p>
+          {q.questions[currentQuestionIndex]}
+        </p>
+      </CardFooter>
+    </Card>
     </div>
   );
 }

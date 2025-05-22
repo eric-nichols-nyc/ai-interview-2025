@@ -1,11 +1,11 @@
-import Interview from "./_components/interview";
+import Interview from "../../../../../components/features/ai-interview/interview";
 import { type Metadata } from "next";
 
 export default async function InterviewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   console.log('Interview ID:', id);
   return (
-    <div>
+    <div className="flex items-center justify-center h-screen">
       <Interview />
     </div>
   );
