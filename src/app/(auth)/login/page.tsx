@@ -3,9 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     console.log("LoginPage mounted");
@@ -31,6 +37,28 @@ export default function LoginPage() {
     }
   };
 
+  const handleSignInWithEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        setError(error.message || "Failed to sign in. Please try again.");
+      } else {
+        router.push("/dashboard");
+      }
+    } catch {
+      setError("Failed to sign in. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <div className="w-full max-w-sm bg-white dark:bg-zinc-900 rounded-lg shadow-md p-8 flex flex-col gap-6">
@@ -38,10 +66,39 @@ export default function LoginPage() {
         {error && (
           <div className="text-red-500 text-sm text-center" role="alert">{error}</div>
         )}
+        <form className="flex flex-col gap-4" onSubmit={handleSignInWithEmail}>
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
+            autoComplete="email"
+            disabled={loading}
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+            autoComplete="current-password"
+            disabled={loading}
+          />
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Signing in..." : "Sign in"}
+          </Button>
+        </form>
+        <div className="flex items-center gap-2 my-2">
+          <div className="flex-1 h-px bg-gray-200 dark:bg-zinc-700" />
+          <span className="text-xs text-gray-400">or</span>
+          <div className="flex-1 h-px bg-gray-200 dark:bg-zinc-700" />
+        </div>
         <Button
           variant="outline"
           className="w-full flex items-center justify-center gap-2"
           onClick={handleSignInWithGoogle}
+          disabled
         >
           <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip0_17_40)">
@@ -58,6 +115,10 @@ export default function LoginPage() {
           </svg>
           Sign in with Google
         </Button>
+        <div className="text-center text-sm text-gray-500 dark:text-gray-400 mt-2">
+          Don&apos;t have an account?{' '}
+          <a href="/signup" className="text-primary underline hover:text-primary/80">Sign up</a>
+        </div>
       </div>
     </div>
   );
