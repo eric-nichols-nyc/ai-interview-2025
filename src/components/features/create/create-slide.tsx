@@ -25,7 +25,12 @@ const formSchema = z.object({
   type: z.enum(["text", "image", "video"]),
 });
 
-export function CreateSlide() {
+
+type CreateSlideProps = {
+  isValid: (isValid: boolean) => void;
+}
+
+export function CreateSlide({ isValid }: CreateSlideProps) {
   const [errors, setErrors] = useState<{ position?: string; description?: string; type?: string }>({});
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,12 +40,12 @@ export function CreateSlide() {
     const formData = new FormData(e.target as HTMLFormElement);
 
     const data = Object.fromEntries(formData);
-    const isValid = formSchema.safeParse(data);
+    const result = formSchema.safeParse(data);
 
-    if (!isValid.success) {
+    if (!result.success) {
       // Map zod errors to field errors
       const fieldErrors: { position?: string; description?: string; type?: string } = {};
-      isValid.error.errors.forEach((err) => {
+      result.error.errors.forEach((err) => {
         if (err.path[0] && typeof err.path[0] === "string") {
           fieldErrors[err.path[0] as keyof typeof fieldErrors] = err.message;
         }
@@ -50,6 +55,7 @@ export function CreateSlide() {
     }
     setErrors({}); // Clear errors on success
     console.log(data);
+    isValid(true);
   };
 
   return (
