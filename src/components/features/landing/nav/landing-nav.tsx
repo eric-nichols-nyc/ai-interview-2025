@@ -23,20 +23,7 @@ export default function LandingNav() {
           <Brain className="h-6 w-6 text-primary" />
           <span className="text-xl font-bold">Prepster</span>
         </div>
-        <nav className="hidden md:flex items-center gap-6">
-          <Link href="#features" className="text-sm font-medium hover:text-primary">
-            Features
-          </Link>
-          <Link href="#how-it-works" className="text-sm font-medium hover:text-primary">
-            How It Works
-          </Link>
-          <Link href="#testimonials" className="text-sm font-medium hover:text-primary">
-            Testimonials
-          </Link>
-          <Link href="#pricing" className="text-sm font-medium hover:text-primary">
-            Pricing
-          </Link>
-        </nav>
+
         <div className="flex items-center gap-4">
           {user ? (
             <Button className="bg-primary text-black" asChild size="sm">
