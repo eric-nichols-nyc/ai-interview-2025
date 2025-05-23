@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight, CheckCircle, Mic, Brain, Clock } from "lucide-react"
+import { ArrowRight, CheckCircle, Brain, Clock, Mic } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import TestimonialCard from "@/components/features/landing/testimonial-card"
 import FeatureCard from "@/components/features/landing/feature-card"
@@ -19,6 +19,18 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
               <div className="flex flex-col justify-center space-y-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Link href="https://vapi.ai/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mb-2 hover:underline">
+                    <span className="text-xs text-muted-foreground">Powered by</span>
+                    <Image
+                      src="/vapi.jpeg"
+                      alt="Vapi Voice Assistant Logo"
+                      width={40}
+                      height={40}
+                      className="h-10 w-10 object-contain rounded-full"
+                    />
+                  </Link>
+                </div>
                 <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">
                   AI-Powered Interview Preparation
                 </div>
