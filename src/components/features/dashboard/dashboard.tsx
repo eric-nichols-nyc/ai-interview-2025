@@ -12,7 +12,7 @@ export default function Dashboard() {
   }, [questions]);
 
   return (
-    <div className="min-h-screen bg-[#0d0d14] text-white p-4 md:p-8">
+    <div className="min-h-[calc(100vh-53px)] bg-[#0d0d14] text-white p-4 md:p-8">
       {/* Hero Section */}
       <div className="max-w-6xl mx-auto mb-12">
         <div className="rounded-xl bg-[#13131f] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between">
@@ -70,8 +70,8 @@ export default function Dashboard() {
 
 interface InterviewCardProps {
   id: string
-  icon: string
-  iconBg: string
+  icon?: string
+  iconBg?: string
   position: string
   date?: string
   score?: string
@@ -90,10 +90,12 @@ function InterviewCard({ icon, iconBg, position, date, score, type, action, isNe
       )}
       <div className="p-4">
         <div className="flex items-center mb-4">
-          <div
-            className={`${iconBg} w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold mr-3`}
-          >
-            {icon}
+          <div className="hidden">
+            <div
+              className={`${iconBg} w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold mr-3`}
+            >
+              {icon}
+            </div>
           </div>
           <div>
             <h3 className="font-semibold">{position}</h3>
