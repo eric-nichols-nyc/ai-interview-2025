@@ -1,12 +1,14 @@
 "use client";
-import { Brain } from "lucide-react";
+import Link from "next/link";
+import { Brain, } from "lucide-react";
 import { SignUpButton } from "@clerk/nextjs";
-import { SignedOut } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
-import { SignedIn } from "@clerk/nextjs";
 import { SignInButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 
 export default function LandingNav() {
+  const { user } = useUser();
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -31,13 +33,18 @@ export default function LandingNav() {
               </Button>
             </>
           )} */}
-             <SignedOut>
+          {user ? (
+            <>
+              <Link href="/dashboard"><Button size="sm">Dashboard</Button></Link>
+              <UserButton />
+
+            </>
+          ) : (
+            <>
               <SignInButton />
               <SignUpButton />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+            </>
+          )}
         </div>
       </div>
     </header>
