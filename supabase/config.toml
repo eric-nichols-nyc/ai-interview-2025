@@ -1,0 +1,4 @@
+
+[auth.third_party.clerk]
+enabled = true
+domain = "https://amused-goldfish-3.clerk.accounts.dev"
