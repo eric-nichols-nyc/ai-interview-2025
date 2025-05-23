@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -26,27 +25,6 @@ export default function Dashboard() {
               <Button className="bg-[#7c5cff] hover:bg-[#6a4eff] text-white rounded-full px-6 cursor-pointer">Create a new interview</Button>
             </Link>
           </div>
-          <div className="relative">
-            <Image
-              src="/placeholder.svg?height=200&width=200"
-              width={200}
-              height={200}
-              alt="AI Assistant Robot"
-              className="z-10"
-            />
-            <div className="absolute top-[-20px] right-[-20px]">
-              <Badge className="bg-[#5cff7c] text-black">A+</Badge>
-            </div>
-            <div className="absolute top-[20px] left-[-30px]">
-              <Badge className="bg-[#ff5c7c] text-white">Q</Badge>
-            </div>
-            <div className="absolute bottom-[40px] left-[-20px]">
-              <Badge className="bg-[#ffb55c] text-black">?</Badge>
-            </div>
-            <div className="absolute bottom-[10px] right-[-30px]">
-              <Badge className="bg-[#5c7cff] text-white">!</Badge>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -55,62 +33,34 @@ export default function Dashboard() {
         <h2 className="text-xl font-bold mb-4">Your Past Interviews</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <InterviewCard
+            id="1"
             icon="H"
             iconBg="bg-[#7c5cff]"
-            title="Frontend Dev Interview"
+            position="Frontend Dev Interview"
             date="Feb 20, 2025"
             score="12/20"
             type="Technical"
             action="View Interview"
           />
           <InterviewCard
+            id="2"
             icon="f"
             iconBg="bg-[#3b5998]"
-            title="Behavioral Interview"
+            position="Behavioral Interview"
             date="Feb 23, 2025"
             score="14/20"
-            type="Non-Technical"
+            type="Behavioral"
             action="View Interview"
           />
           <InterviewCard
+            id="3"
             icon="A"
             iconBg="bg-[#ff5c5c]"
-            title="Backend Dev Interview"
+            position="Backend Dev Interview"
             date="Feb 21, 2025"
             score="14/20"
             type="Technical"
             action="View Interview"
-          />
-        </div>
-      </div>
-
-      {/* Pick Interview Section */}
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-xl font-bold mb-4">Pick Your Interview</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <InterviewCard
-            icon="Y"
-            iconBg="bg-[#7c5cff]"
-            title="Full-Stack Dev Interview"
-            type="Technical"
-            action="Take Interview"
-            isNew
-          />
-          <InterviewCard
-            icon="R"
-            iconBg="bg-[#ff5c3b]"
-            title="DevOps & Cloud Interview"
-            type="Technical"
-            action="Take Interview"
-            isNew
-          />
-          <InterviewCard
-            icon="T"
-            iconBg="bg-[#3b9eff]"
-            title="HR Screening Interview"
-            type="Non-Technical"
-            action="Take Interview"
-            isNew
           />
         </div>
       </div>
@@ -119,17 +69,18 @@ export default function Dashboard() {
 }
 
 interface InterviewCardProps {
+  id: string
   icon: string
   iconBg: string
-  title: string
+  position: string
   date?: string
   score?: string
-  type: "Technical" | "Non-Technical"
+  type: "Technical" | "Behavioral"
   action: string
   isNew?: boolean
 }
 
-function InterviewCard({ icon, iconBg, title, date, score, type, action, isNew = false }: InterviewCardProps) {
+function InterviewCard({ icon, iconBg, position, date, score, type, action, isNew = false, id }: InterviewCardProps) {
   return (
     <div className="bg-[#13131f] rounded-xl overflow-hidden">
       {isNew && (
@@ -145,7 +96,7 @@ function InterviewCard({ icon, iconBg, title, date, score, type, action, isNew =
             {icon}
           </div>
           <div>
-            <h3 className="font-semibold">{title}</h3>
+            <h3 className="font-semibold">{position}</h3>
             <div className="flex items-center space-x-2 text-sm text-gray-400">
               {date && (
                 <>
@@ -167,13 +118,11 @@ function InterviewCard({ icon, iconBg, title, date, score, type, action, isNew =
           dismissive.
         </p>
         <div className="flex items-center">
-          <div className="flex space-x-2">
-            <span className="w-6 h-6 rounded-full bg-[#1a1a26] flex items-center justify-center text-xs">🌐</span>
-            <span className="w-6 h-6 rounded-full bg-[#1a1a26] flex items-center justify-center text-xs">💬</span>
-          </div>
-          <Button variant="secondary" className="ml-auto bg-[#1a1a26] hover:bg-[#252533] text-white text-sm">
-            {action}
-          </Button>
+          <Link href={`/dashboard/interview/${id}/feedback`}>
+            <Button variant="secondary" className="ml-auto bg-[#1a1a26] hover:bg-[#252533] text-white text-sm">
+              {action}
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
