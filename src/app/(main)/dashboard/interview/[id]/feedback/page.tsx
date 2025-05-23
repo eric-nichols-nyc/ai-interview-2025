@@ -6,7 +6,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-
+import { InterviewFeedback } from "@/components/features/feedback/feedback";
 export default async function FeedbackPage({
   params,
 }: {
@@ -29,7 +29,7 @@ export default async function FeedbackPage({
         </Breadcrumb>
       </div>
       <div className="flex flex-col items-center justify-center h-full">
-        <h1>Feedback for interview {id}</h1>
+        <InterviewFeedback />
       </div>
     </div>
   );
