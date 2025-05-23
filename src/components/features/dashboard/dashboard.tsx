@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useEffect } from "react"
 import { useQuestionsStore } from "@/hooks/use-questions-store"
-
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 export default function Dashboard() {
   // Log all questions from the zustand store (localStorage) on mount
   const questions = useQuestionsStore((state) => state.questions);
@@ -30,9 +30,24 @@ export default function Dashboard() {
 
       {/* Past Interviews Section */}
       <div className="max-w-6xl mx-auto mb-12">
-        <h2 className="text-xl font-bold mb-4">Your Past Interviews</h2>
+        <h2 className="text-xl font-bold mb-4">
+          {questions.length > 0 ? "Your Past Interviews" : "No past interviews yet"}
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <InterviewCard
+          {
+            questions.map((question) => (
+              <InterviewCard
+                key={question.id}
+                id={question.id}
+                position={question.position}
+                date="Feb 20, 2025"
+                score="12/20"
+                type="Technical"
+                action="View Interview"
+              />
+            ))
+          }
+          {/* <InterviewCard
             id="1"
             icon="H"
             iconBg="bg-[#7c5cff]"
@@ -61,7 +76,7 @@ export default function Dashboard() {
             score="14/20"
             type="Technical"
             action="View Interview"
-          />
+          /> */}
         </div>
       </div>
     </div>
@@ -70,8 +85,6 @@ export default function Dashboard() {
 
 interface InterviewCardProps {
   id: string
-  icon?: string
-  iconBg?: string
   position: string
   date?: string
   score?: string
@@ -80,53 +93,39 @@ interface InterviewCardProps {
   isNew?: boolean
 }
 
-function InterviewCard({ icon, iconBg, position, date, score, type, action, isNew = false, id }: InterviewCardProps) {
+function InterviewCard({ position, date, score, type, action, id }: InterviewCardProps) {
   return (
-    <div className="bg-[#13131f] rounded-xl overflow-hidden">
-      {isNew && (
-        <div className="absolute top-0 right-0 bg-[#7c5cff] text-white px-2 py-1 text-xs font-bold rounded-full">
-          New
+    <Card className="bg-[#13131f] rounded-xl overflow-hidden">
+      <CardHeader className="flex items-center justify-between">
+        <h3 className="font-semibold">{position}</h3>
+        <Badge className={type === "Technical" ? "bg-[#13294b] text-white" : "bg-[#4b2941] text-white"}>
+            {type}
+          </Badge>
+      </CardHeader>
+      <CardContent>
+        <div className="flex items-center space-x-2 text-sm text-gray-400">
+          {date && (
+            <>
+              <span>{date}</span>
+              <span>•</span>
+            </>
+          )}
+          {score && <span>{score}</span>}
         </div>
-      )}
-      <div className="p-4">
-        <div className="flex items-center mb-4">
-          <div className="hidden">
-            <div
-              className={`${iconBg} w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold mr-3`}
-            >
-              {icon}
-            </div>
-          </div>
-          <div>
-            <h3 className="font-semibold">{position}</h3>
-            <div className="flex items-center space-x-2 text-sm text-gray-400">
-              {date && (
-                <>
-                  <span>{date}</span>
-                  <span>•</span>
-                </>
-              )}
-              {score && <span>{score}</span>}
-            </div>
-          </div>
-          <div className="ml-auto">
-            <Badge className={type === "Technical" ? "bg-[#13294b] text-white" : "bg-[#4b2941] text-white"}>
-              {type}
-            </Badge>
-          </div>
+        <div className="ml-auto">
         </div>
         <p className="text-xs text-gray-400 mb-4">
           This interview does not reflect serious interest or engagement from the candidate. Their responses are
           dismissive.
         </p>
-        <div className="flex items-center">
-          <Link href={`/dashboard/interview/${id}/feedback`}>
-            <Button variant="secondary" className="ml-auto bg-[#1a1a26] hover:bg-[#252533] text-white text-sm">
-              {action}
-            </Button>
-          </Link>
-        </div>
-      </div>
-    </div>
+      </CardContent>
+      <CardFooter>
+        <Link href={`/dashboard/interview/${id}/feedback`}>
+          <Button variant="secondary" className="ml-auto bg-[#1a1a26] hover:bg-[#252533] text-white text-sm">
+            {action}
+          </Button>
+        </Link>
+      </CardFooter>
+    </Card>
   )
 }
