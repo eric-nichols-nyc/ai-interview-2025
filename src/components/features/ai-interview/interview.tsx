@@ -183,7 +183,7 @@ export default function Interview() {
         onComplete={handleTimerComplete}
       />
       <Card className="flex flex-col items-center justify-center w-full">
-        <CardContent>
+        <CardContent className="flex flex-col items-center justify-center">
           <div>
             <Image
               src="/jennifer.png"
@@ -263,13 +263,18 @@ export default function Interview() {
                 : "Start Interview"}
             </Button>
             {/* Button to advance to the next question for demo purposes */}
-            <Button
-              className="mt-2"
-              onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
-              disabled={currentQuestionIndex >= questions.length - 1}
-            >
-              Next Question
-            </Button>
+            {
+              questions.length > 1 && (
+                <Button
+                className="mt-2"
+                onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
+                disabled={currentQuestionIndex >= questions.length - 1}
+                >
+                  Next Question
+                </Button>
+              )
+            }
+
             <p>Is Connected: {isConnected ? "Yes" : "No"}</p>
             <p>Is Speaking: {isSpeaking ? "Yes" : "No"}</p>
           </div>
