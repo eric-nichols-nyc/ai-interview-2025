@@ -1,26 +1,19 @@
 import { NextResponse } from "next/server";
-import { generateText } from "ai";
-import { google } from "@ai-sdk/google";
-export async function POST(req: Request) {
-  const { question, answer } = await req.json();
-  const feedback = await generateFeedback(question, answer);
-  return NextResponse.json({ feedback });
-}
+import { generateFeedback } from "@/actions/google";
 
-async function generateFeedback(question: string, answer: string) {
+export async function POST(req: Request) {
   try {
-    const prompt = `You are an expert interviewer. You are given a question and an answer. You need to generate feedback for the answer.
-    Question: ${question}
-    Answer: ${answer}
-  `;
-  const result = await generateText({
-    model: google("models/gemini-2.0-flash-001"),
-    prompt,
-    maxTokens: 512,
-  });
-  return result.text;
+    const { interviewId, userId, transcript } = await req.json();
+    if (!interviewId || !userId || !Array.isArray(transcript)) {
+      return NextResponse.json({ error: "Missing required fields: interviewId, userId, or transcript." }, { status: 400 });
+    }
+    const feedback = await generateFeedback({ interviewId, userId, transcript });
+    if (typeof feedback === 'object' && feedback !== null && 'error' in feedback) {
+      return NextResponse.json({ error: (feedback as { error: string }).error }, { status: 500 });
+    }
+    return NextResponse.json({ feedback });
   } catch (error) {
-    console.error("Error in generateFeedback:", error);
-    throw error;
+    console.error("Error in generate-feedback route:", error);
+    return NextResponse.json({ error: "Internal server error." }, { status: 500 });
   }
 }

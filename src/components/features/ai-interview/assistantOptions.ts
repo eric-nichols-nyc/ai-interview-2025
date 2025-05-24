@@ -1,7 +1,7 @@
 export function getAssistantOptions(userName: string, jobPosition: string, question: string) {
   return {
     name: "AI Recruiter",
-    firstMessage: `Hello ${userName}, how are you today? are you ready to start the interview for the ${jobPosition} position?`,
+    firstMessage: `Hello ${userName}, I'm Jennifer, you have 90 seconds to answer the question. Are you ready to start?`,
     transcriber: {
       provider: "deepgram",
       model: "nova-2",

@@ -17,7 +17,7 @@ import Link from "next/link";
 import React from "react";
 import { AnimatedGradientText } from "@/components/text/animated-gradient-text";
 import { MultiSelect,MultiSelectContent,MultiSelectGroup,MultiSelectItem,MultiSelectList,MultiSelectTrigger,MultiSelectValue } from "@/components/ui/mulit-select";
-import { TimerComponent } from "@/components/timer";
+import { TimerComponent } from "@/components/timer/timer";
 import { SpinningText } from "@/components/text/spinning-text";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
