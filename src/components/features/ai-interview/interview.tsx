@@ -12,6 +12,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { TimerComponent, TimerComponentHandle } from "@/components/timer/timer";
+import { generateFeedback } from "@/actions/google";
 
 type SavedMessage = {
   role: "user" | "assistant";
@@ -31,6 +32,18 @@ export default function Interview() {
   const userName = "Eric";
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const timerRef = useRef<TimerComponentHandle>(null);
+  const setFeedback = useQuestionsStore((state) => state.setFeedback);
+  const setTranscript = useQuestionsStore((state) => state.setTranscript);
+  // ---
+  // Why do we use transcriptRef?
+  //
+  // React event handlers (like those registered with Vapi) capture the values of variables (like transcriptMessages)
+  // at the time the handler is created. If transcriptMessages changes later, the handler still "remembers" the old value.
+  // This is called a closure issue. To always access the latest transcript, we use a ref (transcriptRef) that is kept in sync
+  // with transcriptMessages using a useEffect. This way, event handlers can always read transcriptRef.current to get the
+  // most up-to-date transcript, even if the handler was created earlier.
+  // ---
+  const transcriptRef = useRef<SavedMessage[]>([]);
 
   // Get questions from zustand store
   const questions = useQuestionsStore((state) => state.questions);
@@ -96,7 +109,8 @@ export default function Interview() {
           setIsConnecting(false);
           setIsConnected(false);
           setStatus("Call ended");
-          console.log("Transcript messages:", transcriptMessages);
+          console.log("Transcript messages (from ref):", transcriptRef.current);
+          setTranscript(transcriptRef.current);
           // Example: Advance to next question after call ends
           // setCurrentQuestionIndex((prev) => prev + 1);
         });
@@ -161,6 +175,10 @@ export default function Interview() {
     };
   }, []);
 
+  useEffect(() => {
+    transcriptRef.current = transcriptMessages;
+  }, [transcriptMessages]);
+
   // Start call function - no need to recheck API key
   const startCall = () => {
     if (!isApiKeyValid) {
@@ -184,7 +202,26 @@ export default function Interview() {
     if (vapi) {
       vapi.stop();
     }
+    setTranscript(transcriptRef.current);
+    handleGenerateFeedback();
   };
+
+  // Generate feedback
+  const handleGenerateFeedback = async () => {
+    console.log("Generating feedback");
+    try {
+      const interviewId = '1234';
+      const userId = '1234';
+      const feedback = await generateFeedback({ interviewId, userId, transcript: transcriptRef.current });
+      console.log("Feedback:", feedback);
+      if (feedback && typeof feedback === 'object' && !('error' in feedback)) {
+        setFeedback(feedback);
+      }
+    } catch (error) {
+      console.error("Failed to generate feedback:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center max-w-2xl gap-4">
       <h1 className="text-2xl font-bold capitalize">{jobPosition} Interview</h1>

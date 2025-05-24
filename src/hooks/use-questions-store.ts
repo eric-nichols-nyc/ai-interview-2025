@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
+import { feedbackSchema } from "@/schemas/feedback-schema";
+import { z } from "zod";
 
 // Helper to generate a random UUID (v4)
 export function generateUUID() {
@@ -18,12 +20,27 @@ export interface QuestionItem {
   answer: string;
 }
 
+// Add SavedMessage type for transcript
+export type SavedMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+
+// Import feedback schema type
+export type Feedback = z.infer<typeof feedbackSchema>;
+
 interface QuestionsStore {
   questions: QuestionItem[];
   setQuestions: (questions: QuestionItem[]) => void;
   addQuestion: (question: QuestionItem) => void;
   getQuestions: () => QuestionItem[];
   deleteQuestion: (id: string) => void;
+  transcript: SavedMessage[];
+  setTranscript: (transcript: SavedMessage[]) => void;
+  getTranscript: () => SavedMessage[];
+  feedback: Feedback | null;
+  setFeedback: (feedback: Feedback) => void;
+  getFeedback: () => Feedback | null;
 }
 
 export const useQuestionsStore = create<QuestionsStore>()(
@@ -31,6 +48,8 @@ export const useQuestionsStore = create<QuestionsStore>()(
     devtools(
       (set, get) => ({
         questions: [],
+        transcript: [],
+        feedback: null,
         setQuestions: (questions) => {
           console.log('[QuestionsStore] setQuestions called with:', questions);
           set({ questions }, false, 'setQuestions');
@@ -47,6 +66,18 @@ export const useQuestionsStore = create<QuestionsStore>()(
         deleteQuestion: (id) => {
           console.log('[QuestionsStore] deleteQuestion called with id:', id);
           set((state) => ({ questions: state.questions.filter(q => q.id !== id) }), false, 'deleteQuestion');
+        },
+        setTranscript: (transcript) => {
+          set({ transcript }, false, 'setTranscript');
+        },
+        getTranscript: () => {
+          return get().transcript;
+        },
+        setFeedback: (feedback) => {
+          set({ feedback }, false, 'setFeedback');
+        },
+        getFeedback: () => {
+          return get().feedback;
         },
       }),
       { name: 'QuestionsStore' }
