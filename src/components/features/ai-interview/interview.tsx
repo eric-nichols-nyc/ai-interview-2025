@@ -6,6 +6,7 @@ import Vapi from "@vapi-ai/web";
 import { Button } from "@/components/ui/button";
 import { getAssistantOptions } from "./assistantOptions";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { TimerComponent } from "@/components/timer";
 
 export default function Interview() {
   const [vapi, setVapi] = useState<Vapi | null>(null);
@@ -90,18 +91,24 @@ export default function Interview() {
           setVolumeLevel(level);
         });
         vapiInstance.on("message", (message) => {
-         // if (message && typeof message.transcript === "string") {
-            //console.log("Message:", message);
+          // if (message && typeof message.transcript === "string") {
+          //console.log("Message:", message);
 
           //   setTranscriptMessages((prev) => [...prev, message.transcript]);
           // } else if (typeof message === "string") {
           //   setTranscriptMessages((prev) => [...prev, message]);
           // }
-         // }
-         if (message.type === "transcript" && message.transcriptType === "final") {
-          const newMessage = { role: message.role, content: message.transcript };
-          console.log("New message:", newMessage);
-        }
+          // }
+          if (
+            message.type === "transcript" &&
+            message.transcriptType === "final"
+          ) {
+            const newMessage = {
+              role: message.role,
+              content: message.transcript,
+            };
+            console.log("New message:", newMessage);
+          }
         });
 
         vapiInstance.on("error", (error) => {
@@ -161,100 +168,117 @@ export default function Interview() {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center max-w-2xl"> 
-       <h1>AI Interview</h1>
-    <Card className="flex flex-col items-center justify-center w-full">
-      <CardContent> 
-        <div>
-          <Image src="/jennifer.png" alt="logo" width={300} height={300} className="rounded-full" />
-        <p>Status: {status}</p>
-        {isConnected && (
-          <div style={{ marginTop: "10px" }}>
-            <p>
-              {isSpeaking ? "Assistant is speaking" : "Assistant is listening"}
-            </p>
+    <div className="flex flex-col items-center justify-center max-w-2xl gap-4">
+      <h1>AI Interview</h1>
+      <TimerComponent mode="down" initialMinutes={0} initialSeconds={15} />
+      <Card className="flex flex-col items-center justify-center w-full">
+        <CardContent>
+          <div>
+            <Image
+              src="/jennifer.png"
+              alt="logo"
+              width={300}
+              height={300}
+              className="rounded-full"
+            />
+            <p>Status: {status}</p>
+            {isConnected && (
+              <div style={{ marginTop: "10px" }}>
+                <p>
+                  {isSpeaking
+                    ? "Assistant is speaking"
+                    : "Assistant is listening"}
+                </p>
 
-            {/* Simple volume indicator */}
-            <div className="flex gap-1">
-              {Array.from({ length: 10 }, (_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    width: "15px",
-                    height: "15px",
-                    backgroundColor: i / 10 < volumeLevel ? "#3ef07c" : "#444",
-                    borderRadius: "2px",
-                  }}
-                />
-              ))}
-            </div>
-            <div>
-              {errorMessage && (
-                <div
-                  style={{
-                    backgroundColor: "#f03e3e",
-                    padding: "15px",
-                    borderRadius: "5px",
-                    marginBottom: "20px",
-                    maxWidth: "400px",
-                    textAlign: "center",
-                  }}
-                >
-                  <p>{errorMessage}</p>
-
-                  {errorMessage.includes("payment") && (
-                    <a
-                      href="https://dashboard.vapi.ai"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                {/* Simple volume indicator */}
+                <div className="flex gap-1">
+                  {Array.from({ length: 10 }, (_, i) => (
+                    <div
+                      key={i}
                       style={{
-                        display: "inline-block",
-                        marginTop: "10px",
-                        color: "white",
-                        textDecoration: "underline",
+                        width: "15px",
+                        height: "15px",
+                        backgroundColor:
+                          i / 10 < volumeLevel ? "#3ef07c" : "#444",
+                        borderRadius: "2px",
+                      }}
+                    />
+                  ))}
+                </div>
+                <div>
+                  {errorMessage && (
+                    <div
+                      style={{
+                        backgroundColor: "#f03e3e",
+                        padding: "15px",
+                        borderRadius: "5px",
+                        marginBottom: "20px",
+                        maxWidth: "400px",
+                        textAlign: "center",
                       }}
                     >
-                      Go to Vapi Dashboard
-                    </a>
+                      <p>{errorMessage}</p>
+
+                      {errorMessage.includes("payment") && (
+                        <a
+                          href="https://dashboard.vapi.ai"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: "inline-block",
+                            marginTop: "10px",
+                            color: "white",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          Go to Vapi Dashboard
+                        </a>
+                      )}
+                    </div>
                   )}
                 </div>
-              )}
-            </div>
-          </div>
-        )}
+              </div>
+            )}
 
-        <Button className="mt-4 cursor-pointer"
-          onClick={isConnected ? endCall : startCall}
-          disabled={isConnecting || !isApiKeyValid}
-        >
-          {isConnecting
-            ? "Connecting..."
-            : isConnected
-            ? "End Call"
-            : "Start Interview"}
-        </Button>
-        {/* Button to advance to the next question for demo purposes */}
-        <Button
-          className="mt-2"
-          onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
-          disabled={currentQuestionIndex >= (questions.length - 1)}
-        >
-          Next Question
-        </Button>
-        <p>Is Connected: {isConnected ? "Yes" : "No"}</p>
-        <p>Is Speaking: {isSpeaking ? "Yes" : "No"}</p>
-        </div>
-      </CardContent>
-      <CardFooter>
-        <div>
-          <p><strong>Question:</strong> {currentItem ? currentItem.question : "No questions available."}</p>
-          <p><strong>Position:</strong> {currentItem ? currentItem.position : "-"}</p>
-          <p><strong>Answer:</strong> {currentItem ? currentItem.answer : "-"}</p>
-        </div>
-      </CardFooter>
-    </Card>
+            <Button
+              className="mt-4 cursor-pointer"
+              onClick={isConnected ? endCall : startCall}
+              disabled={isConnecting || !isApiKeyValid}
+            >
+              {isConnecting
+                ? "Connecting..."
+                : isConnected
+                ? "End Call"
+                : "Start Interview"}
+            </Button>
+            {/* Button to advance to the next question for demo purposes */}
+            <Button
+              className="mt-2"
+              onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
+              disabled={currentQuestionIndex >= questions.length - 1}
+            >
+              Next Question
+            </Button>
+            <p>Is Connected: {isConnected ? "Yes" : "No"}</p>
+            <p>Is Speaking: {isSpeaking ? "Yes" : "No"}</p>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <div>
+            <p>
+              <strong>Question:</strong>{" "}
+              {currentItem ? currentItem.question : "No questions available."}
+            </p>
+            <p>
+              <strong>Position:</strong>{" "}
+              {currentItem ? currentItem.position : "-"}
+            </p>
+            <p>
+              <strong>Answer:</strong> {currentItem ? currentItem.answer : "-"}
+            </p>
+          </div>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
-
-

@@ -3,7 +3,7 @@ export const metadata = {
   description: "Optional description for SEO",
 };
 
-import ComponentsShowcase from "@/components/features/components/ComponentsShowcase";
+import ComponentsShowcase from "@/components/features/components/component-showcase";
 
 export default function ComponentsPage() {
   return <ComponentsShowcase />;

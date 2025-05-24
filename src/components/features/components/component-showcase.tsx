@@ -16,6 +16,7 @@ import Link from "next/link";
 import React from "react";
 import { AnimatedGradientText } from "@/components/text/animated-gradient-text";
 import { MultiSelect,MultiSelectContent,MultiSelectGroup,MultiSelectItem,MultiSelectList,MultiSelectTrigger,MultiSelectValue } from "@/components/ui/mulit-select";
+import { TimerComponent } from "@/components/timer";
 import { SpinningText } from "@/components/text/spinning-text";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -183,6 +184,12 @@ const ComponentsShowcase = () => (
           <CarouselIndicators />
         </Carousel>
       </div>
+    </SectionWithTitle>
+    <SectionWithTitle title="Timer (Count Up, starts at 0:30)">
+      <TimerComponent mode="up" initialMinutes={0} initialSeconds={30} />
+    </SectionWithTitle>
+    <SectionWithTitle title="Timer (Count Down, starts at 2:15)">
+      <TimerComponent mode="down" initialMinutes={0} initialSeconds={15} />
     </SectionWithTitle>
   </>
 );

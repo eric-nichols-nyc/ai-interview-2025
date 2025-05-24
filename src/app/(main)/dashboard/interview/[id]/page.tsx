@@ -24,21 +24,6 @@ export default async function InterviewPage({ params }: { params: Promise<{ id: 
       <Interview />
     </div>
   </>
-    // <div className="flex flex-col items-center justify-center h-screen">
-    //   <div className="w-full max-w-2xl mb-6">
-    //     <Breadcrumb>
-    //       <BreadcrumbList>
-    //         <BreadcrumbItem>
-    //           <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
-    //         </BreadcrumbItem>
-    //         <BreadcrumbItem>
-    //           <BreadcrumbPage>Interview {id}</BreadcrumbPage>
-    //         </BreadcrumbItem>
-    //       </BreadcrumbList>
-    //     </Breadcrumb>
-    //   </div>
-    //   <Interview />
-    // </div>
   );
 }
 
