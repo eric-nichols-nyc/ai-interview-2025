@@ -38,6 +38,11 @@ export default function Interview() {
     currentItem ? currentItem.question : ""
   );
 
+  const handleTimerComplete = () => {
+    console.log("Timer complete");
+    endCall();
+  };
+
   // On mount, set to last question if available
   useEffect(() => {
     if (questions.length > 0) {
@@ -170,7 +175,13 @@ export default function Interview() {
   return (
     <div className="flex flex-col items-center justify-center max-w-2xl gap-4">
       <h1>AI Interview</h1>
-      <TimerComponent mode="down" initialMinutes={0} initialSeconds={15} />
+      <TimerComponent
+        mode="down"
+        initialMinutes={1}
+        initialSeconds={0}
+        compact={true}
+        onComplete={handleTimerComplete}
+      />
       <Card className="flex flex-col items-center justify-center w-full">
         <CardContent>
           <div>

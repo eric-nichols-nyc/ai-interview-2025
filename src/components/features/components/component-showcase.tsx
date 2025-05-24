@@ -1,3 +1,4 @@
+"use client"
 import { BlackInterviewCard } from "@/components/cards/black-interview-card";
 import {
   Carousel,
@@ -43,6 +44,7 @@ const SectionWithTitle: React.FC<SectionWithTitleProps> = ({
 );
 
 const ComponentsShowcase = () => (
+
   <>
     <div className="w-full flex flex-col items-center mb-10 pt-8 sticky top-0 z-20 bg-background/80 backdrop-blur shadow">
       <Link
@@ -188,8 +190,13 @@ const ComponentsShowcase = () => (
     <SectionWithTitle title="Timer (Count Up, starts at 0:30)">
       <TimerComponent mode="up" initialMinutes={0} initialSeconds={30} />
     </SectionWithTitle>
-    <SectionWithTitle title="Timer (Count Down, starts at 2:15)">
-      <TimerComponent mode="down" initialMinutes={0} initialSeconds={15} />
+    <SectionWithTitle title="Timer (Count Down, starts at 0:15, with onComplete)">
+      <TimerComponent
+        mode="down"
+        initialMinutes={0}
+        initialSeconds={15}
+        onComplete={() => alert("Countdown complete!")}
+      />
     </SectionWithTitle>
   </>
 );
