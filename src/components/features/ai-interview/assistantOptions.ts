@@ -1,7 +1,7 @@
 export function getAssistantOptions(userName: string, jobPosition: string, question: string) {
   return {
     name: "AI Recruiter",
-    firstMessage: `Hello ${userName}, I'm Jennifer, you have 90 seconds to answer the question. Are you ready to start?`,
+    firstMessage: `Hello ${userName}! I'm Jennifer and I'm here to help you with your interview. You have 90 seconds to answer the question. Are you ready to start?`,
     transcriber: {
       provider: "deepgram",
       model: "nova-2",
@@ -12,8 +12,8 @@ export function getAssistantOptions(userName: string, jobPosition: string, quest
       voiceId: "jennifer",
     },
     model: {
-      provider: "openai",
-      model: "gpt-4",
+      provider: "google",
+      model: "gemini-1.5-pro",
       messages: [
         {
           role: "system",
