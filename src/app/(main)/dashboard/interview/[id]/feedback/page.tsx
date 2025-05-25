@@ -1,4 +1,3 @@
-"use client";
 import {
   Breadcrumb,
   BreadcrumbLink,
@@ -7,16 +6,13 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import { InterviewFeedback } from "@/components/features/feedback/feedback";
-import { useQuestionsStore } from "@/hooks/use-questions-store";
-
-export default function FeedbackPage({
+import FeedbackWrapper from "../_components/feedback-wrapper";
+export default async function FeedbackPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
-  const feedback = useQuestionsStore((state) => state.feedback);
+  const { id } = await params;
 
   return (
     <div>
@@ -34,7 +30,7 @@ export default function FeedbackPage({
         </Breadcrumb>
       </div>
       <div className="flex flex-col items-center justify-center h-full">
-        <InterviewFeedback feedback={feedback} />
+        <FeedbackWrapper />
       </div>
     </div>
   );
