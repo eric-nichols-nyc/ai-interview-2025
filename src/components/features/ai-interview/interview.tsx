@@ -335,10 +335,6 @@ export default function Interview() {
               <strong>Question:</strong>{" "}
               {currentItem ? currentItem.question : "No questions available."}
             </p>
-            {/* <p>
-              <strong>Position:</strong>{" "}
-              {currentItem ? currentItem.position : "-"}
-            </p> */}
             <p>
               <strong>Answer:</strong> {currentItem ? currentItem.answer : "-"}
             </p>
