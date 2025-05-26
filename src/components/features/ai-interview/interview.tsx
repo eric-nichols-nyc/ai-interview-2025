@@ -26,6 +26,8 @@ type InterviewProps = {
   id: string;
 };
 
+const MemoizedCarousel = React.memo(Carousel);
+
 export default function Interview({ id }: InterviewProps) {
   console.log("Interview ID:", id);
   const { user } = useUser();
@@ -85,7 +87,7 @@ export default function Interview({ id }: InterviewProps) {
 
   const handleTimerComplete = () => {
     console.log("Timer complete");
-    endCall();
+    handleEndCall();
   };
 
   // On mount, set to last question if available
@@ -151,6 +153,12 @@ export default function Interview({ id }: InterviewProps) {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (status === "error") {
+      timerRef.current?.reset();
+    }
+  }, [status]);
 
   function renderInterviewCard({
     timerRef,
@@ -311,7 +319,7 @@ export default function Interview({ id }: InterviewProps) {
     <div className="flex flex-col items-center justify-center w-full max-w-2xl gap-4">
       <h1 className="text-2xl font-bold capitalize">{jobPosition} Interview</h1>
 
-      <Carousel
+      <MemoizedCarousel
         ref={carouselRef}
         slideCount={2}
         height="600px"
@@ -342,7 +350,7 @@ export default function Interview({ id }: InterviewProps) {
             <LoadingSlide isLoading={isLoading} isError={isError} />
           </CarouselSlide>
         </CarouselSlides>
-      </Carousel>
+      </MemoizedCarousel>
     </div>
   );
 }
