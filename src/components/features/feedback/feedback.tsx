@@ -86,7 +86,7 @@ export function InterviewFeedback({ feedback }: { feedback: Feedback | null }) {
                 Back to dashboard
               </Button>
             </Link>
-            <Link href="/dashboard/interview/create">
+            <Link href={`/dashboard/interview/${feedback.interviewId}`}>
               <Button className="flex-1 bg-purple-600 hover:bg-purple-700 text-white">Retake interview</Button>
             </Link>
           </div>

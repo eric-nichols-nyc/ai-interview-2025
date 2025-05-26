@@ -66,6 +66,7 @@ export interface CarouselHandle {
 
 const Carousel = forwardRef<CarouselHandle, CarouselProps>(
   ({ children, className, slideCount: slideCountProp, width, height }, ref) => {
+    console.log("Carousel rendered");
     // Use slideCount prop if provided, otherwise count CarouselSlides' children
     let slideCount = slideCountProp ?? 0;
     if (slideCountProp == null) {

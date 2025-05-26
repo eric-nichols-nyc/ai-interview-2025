@@ -160,6 +160,7 @@ const ComponentsShowcase = () => (
       </MultiSelect>
     </div>
     </SectionWithTitle>
+    {/* Carousel */}
     <SectionWithTitle title="Carousel">
       <div className="w-[400px] h-[600px] mx-auto my-8">
         <Carousel slideCount={3} width="400px" height="600px">

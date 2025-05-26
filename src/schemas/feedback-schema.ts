@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const feedbackSchema = z.object({
+    interviewId: z.string(),
     totalScore: z.number(),
     categoryScores: z.tuple([
       z.object({

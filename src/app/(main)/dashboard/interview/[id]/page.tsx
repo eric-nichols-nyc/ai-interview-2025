@@ -21,7 +21,7 @@ export default async function InterviewPage({ params }: { params: Promise<{ id: 
       </Breadcrumb>
     </div>
     <div className="flex flex-col items-center justify-center h-full">
-      <Interview />
+      <Interview id={id} />
     </div>
   </>
   );
