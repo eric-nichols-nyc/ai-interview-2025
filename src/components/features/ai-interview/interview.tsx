@@ -239,8 +239,8 @@ const handleGenerateFeedback = async () => {
               <span className="mr-2">Question:</span>
               <span className="mr-2">{currentItem?.question}</span>
             </div>
-            <div className="flex items-center">
-              <span className="mr-2">Transcript:</span>
+            <div className="flex items-center text-sm text-gray-500">
+              <span className="mr-2">Transcript Messages:</span>
               <span className="mr-2">{transcriptMessages.length}</span>
             </div>
           </div>

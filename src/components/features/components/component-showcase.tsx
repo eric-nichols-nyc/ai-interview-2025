@@ -201,7 +201,7 @@ const ComponentsShowcase = () => (
     </SectionWithTitle>
     <SectionWithTitle title="Ripple Loader">
       <div className="flex items-center justify-center h-[600px] w-[400px] border border-white/20 p-24">
-      <RippleLoader size="lg" color="purple" text="Generating Interview" />
+      <RippleLoader size="lg" color="blue" text="Generating Interview" />
       </div>
     </SectionWithTitle>
   </>
