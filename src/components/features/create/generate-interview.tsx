@@ -9,10 +9,8 @@ import {
 import { CreateSlide } from "@/components/features/create/create-slide";
 import { LoadingSlide } from "@/components/features/create/loading-slide";
 import { ReadySlide } from "@/components/features/create/ready-slide";
-import Link from "next/link";
 import { InterviewQuestions } from "@/schemas/interview-questions.schema";
 import { useQuestionsStore } from '@/hooks/use-questions-store';
-import { generateUUID } from '@/hooks/use-questions-store';
 
 export function GenerateInterview() {
   const MAX_SLIDE = 3;
@@ -21,7 +19,7 @@ export function GenerateInterview() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isValid, setIsValid] = useState(false);
-  const [interviewId, setInterviewId] = useState();
+  const [interviewId, setInterviewId] = useState<string | null>(null);
 
   const addQuestion = useQuestionsStore((state) => state.addQuestion);
   const setQuestions = useQuestionsStore((state) => state.setQuestions);
@@ -47,7 +45,7 @@ export function GenerateInterview() {
       // Save to zustand store
       if (Array.isArray(data.questions)) {
         setQuestions(data.questions.map((q: string) => ({
-          id: generateUUID(),
+          id: data.interviewId,
           question: q,
           position: formData.position,
           answer: ""
@@ -56,7 +54,7 @@ export function GenerateInterview() {
         setInterviewId(data.interviewId);
       } else if (typeof data.questions === "string") {
         addQuestion({
-          id: generateUUID(),
+          id: data.interviewId,
           question: data.questions,
           position: formData.position,
           answer: ""
@@ -120,8 +118,7 @@ export function GenerateInterview() {
             </CarouselSlide>
             <CarouselSlide>
               <div className="w-full h-full">
-                <ReadySlide />
-                <Link href={`/dashboard/interview/${interviewId}`}>Start Interview</Link>
+                <ReadySlide interviewId={interviewId} />
               </div>
             </CarouselSlide>
           </CarouselSlides>
