@@ -21,6 +21,7 @@ export function GenerateInterview() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isValid, setIsValid] = useState(false);
+  const [interviewId, setInterviewId] = useState();
 
   const addQuestion = useQuestionsStore((state) => state.addQuestion);
   const setQuestions = useQuestionsStore((state) => state.setQuestions);
@@ -52,6 +53,7 @@ export function GenerateInterview() {
           answer: ""
         })));
         console.log('[GenerateInterview] Saved array of questions to store:', data.questions);
+        setInterviewId(data.interviewId);
       } else if (typeof data.questions === "string") {
         addQuestion({
           id: generateUUID(),
@@ -60,6 +62,7 @@ export function GenerateInterview() {
           answer: ""
         });
         console.log('[GenerateInterview] Added single question to store:', data.questions);
+        setInterviewId(data.interviewId);
       }
       setIsLoading(false);
       console.log('[GenerateInterview] Loading finished, moving to next slide.');
@@ -118,7 +121,7 @@ export function GenerateInterview() {
             <CarouselSlide>
               <div className="w-full h-full">
                 <ReadySlide />
-                <Link href="/dashboard/interview/1234">Start Interview</Link>
+                <Link href={`/dashboard/interview/${interviewId}`}>Start Interview</Link>
               </div>
             </CarouselSlide>
           </CarouselSlides>

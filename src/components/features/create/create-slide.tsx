@@ -98,7 +98,7 @@ export function CreateSlide({ onSubmit }: CreateSlideProps) {
               <span className="text-red-500 text-sm">{errors.type}</span>
             )}
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="hidden">
             <Label htmlFor="amount">Amount</Label>
             <Input
               id="amount"

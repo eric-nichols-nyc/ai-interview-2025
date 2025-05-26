@@ -13,6 +13,7 @@ import { TimerComponent, TimerComponentHandle } from "@/components/timer/timer";
 import { generateFeedback } from "@/actions/google";
 import { useVapiAgent } from "@/hooks/use-vapi-agent";
 import { useUser } from "@clerk/clerk-react";
+import { redirect } from "next/navigation";
 
 type SavedMessage = {
   role: "user" | "assistant";
@@ -115,6 +116,7 @@ const handleGenerateFeedback = async () => {
     console.log("Feedback:", feedback);
     if (feedback && typeof feedback === 'object' && !('error' in feedback)) {
       setFeedback(feedback);
+      redirect("/dashboard/feedback/1234");
     }
   } catch (error) {
     console.error("Failed to generate feedback:", error);

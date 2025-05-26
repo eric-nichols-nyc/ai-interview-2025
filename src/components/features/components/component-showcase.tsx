@@ -13,6 +13,7 @@ import { RippleButton } from "@/components/buttons/ripple-button";
 import { NeonGradientCard } from "@/components/cards/neon-gradient";
 import { AuroraText } from "@/components/text/aurora-text";
 import { VideoText } from "@/components/text/video-text";
+import { RippleLoader } from "@/components/ripple-loader";
 import Link from "next/link";
 import React from "react";
 import { AnimatedGradientText } from "@/components/text/animated-gradient-text";
@@ -197,6 +198,11 @@ const ComponentsShowcase = () => (
         initialSeconds={15}
         onComplete={() => alert("Countdown complete!")}
       />
+    </SectionWithTitle>
+    <SectionWithTitle title="Ripple Loader">
+      <div className="flex items-center justify-center h-[600px] w-[400px] border border-white/20 p-24">
+      <RippleLoader size="lg" color="purple" text="Generating Interview" />
+      </div>
     </SectionWithTitle>
   </>
 );
